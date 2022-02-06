@@ -1,15 +1,7 @@
-<template>
-  <hello-world />
+<template lang="pug">
+h1.text-center 哈囉
 </template>
 
-<script>
-import HelloWorld from '../components/HelloWorld'
+<style lang="scss">
 
-export default {
-  name: 'Home',
-
-  components: {
-    HelloWorld
-  }
-}
-</script>
+</style>

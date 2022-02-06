@@ -1,47 +1,23 @@
 <template lang="pug">
 v-app
-  v-app-bar(
-    app
-    color="primary"
-    dark
-  )
-    div.d-flex.align-center
-    v-img(
-      alt="Vuetify Logo"
-      class="shrink mr-2"
-      contain
-      src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-      transition="scale-transition"
-      width="40"
-    )
-      v-img(
-        alt="Vuetify Name"
-        class="shrink mt-1 hidden-sm-and-down"
-        contain
-        min-width="100"
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-        width="100"
-      )
-    div
-    v-spacer
-    v-btn(
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-    )
-      span.mr-2 Latest Release
-      v-icon mdi-open-in-new
+  Navbar
   v-main
-    router-view
+    v-container(fluid)
+      router-view
 </template>
 
 <script>
+import Navbar from './components/Navbar.vue'
 
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  })
+  components: {
+    Navbar
+  }
 }
 </script>
+
+<style lang="scss">
+@import './assets/scss/main.scss';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+</style>

@@ -1,0 +1,22 @@
+#navbar {
+  .v-toolbar__content {
+    flex-direction: column;
+    padding: 0;
+    .navtext-container {
+      padding: 0;
+      height: 100%;
+      p {
+        line-height: $navTextHeight;
+      }
+    }
+    .header-container {
+      height: 80px;
+      .v-input__slot {
+        margin-bottom: 0;
+      }
+      .v-text-field__details {
+        display: none;
+      }
+    }
+  }
+}

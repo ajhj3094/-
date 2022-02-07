@@ -9,26 +9,33 @@ v-app-bar#navbar(
         | 超取$199 免運費，宅配$499 免運費(大型商品除外)。滿千送百活動獲得的購物抵用卡開始使用囉！
   .w-100
     v-container.xl-mw.header-container.pa-0.d-flex
-      v-img.mr-8(
+      v-img.mr-12(
         :src="require('../assets/logo.png')"
         contain
         max-width='125'
       )
-      v-text-field.flex-grow-0.align-center(
-        clearable='true'
+      v-text-field.flex-grow-0.align-center.mr-auto(
         dense
-        @click:append='text++'
+        outlined
+        color='#000000'
       )
-        template(#append)
+        template(v-slot:append)
           v-btn(icon)
             v-icon mdi-magnify
+      .d-flex.align-center
+        v-btn.ml-3(v-for='btn in btns')
+          v-icon.mr-1(color) {{ btn.icon }}
+          p.mb-0.font-weight-light {{ btn.text }}
 </template>
 
 <script>
 export default {
   data () {
     return {
-      text: 1
+      btns: [
+        { icon: 'mdi-account-outline', text: '登入/註冊' },
+        { icon: 'mdi-cart-outline', text: '購物車' }
+      ]
     }
   }
 }

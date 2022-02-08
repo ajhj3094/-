@@ -2,6 +2,7 @@
 v-app-bar#navbar(
     app
     prominent
+    height='164'
   )
   .w-100.sd-color
     v-container.xl-mw.navtext-container.pa-0
@@ -20,12 +21,26 @@ v-app-bar#navbar(
         color='#000000'
       )
         template(v-slot:append)
-          v-btn(icon)
+          v-btn(
+            icon
+          )
             v-icon mdi-magnify
       .d-flex.align-center
-        v-btn.ml-3(v-for='btn in btns')
+        v-btn.ml-3(
+          v-for='btn in btns'
+          depressed
+        )
           v-icon.mr-1(color) {{ btn.icon }}
           p.mb-0.font-weight-light {{ btn.text }}
+    v-container.pa-0
+      v-divider.divider
+  .w-100
+    v-container.pa-0.menu-container
+      div
+        v-tabs
+          v-tab.px-0(v-for='tab in tabs')
+            span {{ tab.title }}
+            v-divider(inset vertical)
 </template>
 
 <script>
@@ -34,7 +49,15 @@ export default {
     return {
       btns: [
         { icon: 'mdi-account-outline', text: '登入/註冊' },
-        { icon: 'mdi-cart-outline', text: '購物車' }
+        { icon: 'mdi-cart-outline', text: '購物車(0)' }
+      ],
+      tabs: [
+        { title: '露營', to: '' },
+        { title: '登山健行', to: '' },
+        { title: '滑雪', to: '' },
+        { title: '外套', to: '' },
+        { title: '男生', to: '' },
+        { title: '女生', to: '' }
       ]
     }
   }

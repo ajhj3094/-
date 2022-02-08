@@ -1,7 +1,9 @@
 #navbar {
+  // height: auto !important;
   .v-toolbar__content {
     flex-direction: column;
     padding: 0;
+    height: auto !important;
     .navtext-container {
       padding: 0;
       height: 100%;
@@ -10,7 +12,7 @@
       }
     }
     .header-container {
-      height: 80px;
+      height: $headerContainerHeight;
       .v-input__control {
         width: 300px;
       }
@@ -32,6 +34,21 @@
       }
       button {
         padding: 0 8px;
+      }
+    }
+    .divider {
+      margin-top: -1px;
+    }
+    .menu-container {
+      .v-tabs-bar {
+        background-color: unset;
+      }
+      .v-tab {
+        margin-left: 1px;
+        color: #000000;
+      }
+      span {
+        width: 150px;
       }
     }
   }

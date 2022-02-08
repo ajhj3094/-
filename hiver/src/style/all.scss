@@ -1,12 +1,14 @@
 @import 'variale.scss'; // 變數的引入位置順序須優先於各元件的 scss 檔
-@import 'navbar.scss';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import 'navbar.scss';
+@import 'carousel.scss';
 
-p {
+p, span{
   font-family: $ctFont !important;
+  font-weight: 300;
 }
 
-.xl-mw {
+.xl-mw, .container {
   @media (min-width: 1904px) {
     max-width: $containerMaxWidth;
   }

@@ -2,7 +2,7 @@
 v-app
   Navbar
   v-main
-    v-container(fluid)
+    v-container.pa-0(fluid)
       router-view
 </template>
 

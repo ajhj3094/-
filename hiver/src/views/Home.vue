@@ -1,7 +1,16 @@
 <template lang="pug">
-h1.text-center 哈囉
+#Home
+  Carousel
+  .test
 </template>
 
-<style lang="scss">
+<script>
+import Carousel from '../components/Carousel.vue'
 
-</style>
+export default {
+  name: 'Home',
+  components: {
+    Carousel
+  }
+}
+</script>

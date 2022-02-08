@@ -2,14 +2,19 @@
 v-carousel#carousel(
   v-model='model'
   cycle
-  interval='3000'
+  interval='300000'
   hide-delimiter-background
+  height='680'
 )
   v-carousel-item(
     v-for='(color, i) in pics'
     :key='color'
   )
-    v-parallax(dark :src='color')
+    v-parallax(
+      dark
+      :src='color'
+      height='680'
+    )
       v-row(align='center' justify='center')
         v-col.text-center(cols='12')
           h1.text-h4.font-weight-thin.mb-4.

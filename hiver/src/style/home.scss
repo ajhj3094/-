@@ -1,0 +1,23 @@
+#menutext-container {
+  padding: 0;
+  height: 32px;
+  p {
+    line-height: 32px !important;
+  }
+}
+
+
+#recommend {
+  height: 600px;
+  // background: $bgColor;
+  background: linear-gradient(
+    180deg,
+    $bgColor 70%,
+    $navbarColor 70%
+  );
+  .rec-wrap {
+    width: 540px;
+    align-content: space-between;
+    height: 520px;
+  }
+}

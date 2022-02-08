@@ -5,11 +5,11 @@ v-app-bar#navbar(
     height='164'
   )
   .w-100.sd-color
-    v-container.xl-mw.navtext-container.pa-0
+    v-container#navtext-container.xl-mw.pa-0
       p.mb-0.text-subtitle-2.white--text
-        | 超取$199 免運費，宅配$499 免運費(大型商品除外)。滿千送百活動獲得的購物抵用卡開始使用囉！
+        | 超取 $199 免運費，宅配 $499 免運費(大型商品除外)。滿千送百活動獲得的購物抵用卡開始使用囉！
   .w-100
-    v-container.xl-mw.header-container.pa-0.d-flex
+    v-container#header-container.xl-mw.pa-0.d-flex
       v-img.mr-12(
         :src="require('../assets/logo.png')"
         contain
@@ -35,12 +35,16 @@ v-app-bar#navbar(
     v-container.pa-0
       v-divider.divider
   .w-100
-    v-container.pa-0.menu-container
+    v-container#menu-container.pa-0
       div
         v-tabs
           v-tab.px-0(v-for='tab in tabs')
             span {{ tab.title }}
             v-divider(inset vertical)
+  //- .w-100.test-color
+  //-   v-container.xl-mw.menutext-container.pa-0
+  //-     p.mb-0.text-subtitle-2.white--text.text-center
+  //-       | 嗨！HIVER 的會員，聖誕節起首筆消費即享有 8 折優惠！活動將於 3/4 截止
 </template>
 
 <script>

@@ -1,9 +1,8 @@
 <template lang="pug">
 v-app
-  Navbar
+  Navbar.z-100
   v-main
-    v-container.pa-0(fluid)
-      router-view
+    router-view
 </template>
 
 <script>

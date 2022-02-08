@@ -1,0 +1,57 @@
+#navbar {
+  .v-toolbar__content {
+    flex-direction: column;
+    padding: 0;
+    height: auto !important;
+    .divider {
+      margin-top: -1px;
+    }
+  }
+}
+
+#navtext-container {
+  padding: 0;
+  height: 100%;
+  p {
+    line-height: $navTextHeight;
+  }
+}
+
+#header-container {
+  height: $headerContainerHeight;
+  .v-input__control {
+    width: 300px;
+  }
+  .v-input__slot {
+    margin-bottom: 0;
+    padding-right: 0;
+    #input-9 {
+      padding: 5px 0 4px;
+    }
+  }
+  .v-input__append-inner {
+    margin-top: 0;
+    .v-btn {
+      height: 45px;
+    }
+  }
+  .v-text-field__details {
+    display: none;
+  }
+  button {
+    padding: 0 8px;
+  }
+}
+
+#menu-container {
+  .v-tabs-bar {
+    background-color: unset;
+  }
+  .v-tab {
+    margin-left: 1px;
+    color: #000000;
+  }
+  span {
+    width: 150px;
+  }
+}

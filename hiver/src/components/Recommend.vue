@@ -3,40 +3,50 @@
   h2.ct-font.text-center 推薦商品
   v-container.d-flex.justify-center.align-center.mt-9
     v-card(
-      width='320'
+      width='380'
       hover
       height='450'
+      flat
     )
       v-img(
-        src='https://picsum.photos/200/350'
-        height='450'
+        src='@/assets/home-products-left.jpg'
+        height='420'
+        contain
       )
-      v-card-title.justify-center aoifhosaidgh
-    div.mx-8.d-flex.flex-wrap.rec-wrap.justify-space-around
+      v-card-title.pt-0.justify-center aoifhosaidgh
+    div.d-flex.flex-wrap.rec-wrap.justify-space-around
       v-card.align-content-space-between(
       v-for='(recommend, idx) in recommends'
-      width='220'
+      width='200'
       hover
-      height='220'
+      height='260'
       elevation='0'
       to='/shop'
+      flat
     )
         v-img(
-          :src="require('@/assets/'+recommend.item)"
-          height='220'
+          :src="require('@/assets/'+recommend.src)"
+          height='200'
           contain
         )
-        v-card-title.justify-center aoifhosaidgh
+        v-card-title.pt-0.justify-center {{ recommend.name }}
     v-card(
-      width='320'
+      width='380'
       hover
       height='450'
+      flat
     )
       v-img(
-        src='https://picsum.photos/200/350'
-        height='450'
+        src='@/assets/home-products-right.jpg'
+        height='420'
       )
-      v-card-title.justify-center aoifhosaidgh
+      v-card-title.pt-0.justify-center 羽絨衣
+  v-container
+    v-btn.d-flex.mx-auto(
+      color='maincolor'
+      dark
+      min-width='500'
+    ) 查看所有商品
 </template>
 
 <script>
@@ -44,10 +54,10 @@ export default {
   data () {
     return {
       recommends: [
-        { item: 'home-products-1.jpg' },
-        { item: 'home-products-2.jpg' },
-        { item: 'home-products-1.jpg' },
-        { item: 'home-products-1.jpg' }
+        { name: '帽子', src: 'home-products-1.jpg' },
+        { name: '帳篷', src: 'home-products-2.jpg' },
+        { name: '睡袋', src: 'home-products-3.jpg' },
+        { name: '登山褲', src: 'home-products-4.jpg' }
       ]
     }
   }

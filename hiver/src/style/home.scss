@@ -22,9 +22,10 @@
   }
   .v-image__image {
     z-index: 0;
-    transition: all 250ms ease-out; 
+    transition: all 250ms ease-in-out; 
+    // 要有初始值，因為預設是 contain
+    background-size: 100% !important;
     &:hover {
-      transition: all 250ms ease-out; 
       background-size: 120% !important;
     }
   }

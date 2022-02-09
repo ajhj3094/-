@@ -14,14 +14,17 @@
       v-card-title.justify-center aoifhosaidgh
     div.mx-8.d-flex.flex-wrap.rec-wrap.justify-space-around
       v-card.align-content-space-between(
-      v-for='n in 4'
+      v-for='(recommend, idx) in recommends'
       width='220'
       hover
       height='220'
+      elevation='0'
+      to='/shop'
     )
         v-img(
-          src='https://picsum.photos/220/220'
+          :src="require('@/assets/'+recommend.item)"
           height='220'
+          contain
         )
         v-card-title.justify-center aoifhosaidgh
     v-card(
@@ -35,3 +38,18 @@
       )
       v-card-title.justify-center aoifhosaidgh
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      recommends: [
+        { item: 'home-products-1.jpg' },
+        { item: 'home-products-2.jpg' },
+        { item: 'home-products-1.jpg' },
+        { item: 'home-products-1.jpg' }
+      ]
+    }
+  }
+}
+</script>

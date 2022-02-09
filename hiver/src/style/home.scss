@@ -20,4 +20,12 @@
     align-content: space-between;
     height: 520px;
   }
+  .v-image__image {
+    z-index: 0;
+    transition: all 250ms ease-out; 
+    &:hover {
+      transition: all 250ms ease-out; 
+      background-size: 120% !important;
+    }
+  }
 }

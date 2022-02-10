@@ -13,7 +13,7 @@
         height='420'
         contain
       )
-      v-card-title.pt-0.justify-center aoifhosaidgh
+      v-card-title.pt-0.justify-center 保暖長袖
     div.d-flex.flex-wrap.rec-wrap.justify-space-around
       v-card.align-content-space-between(
       v-for='(recommend, idx) in recommends'
@@ -21,7 +21,7 @@
       hover
       height='260'
       elevation='0'
-      to='/shop'
+      :to='recommend.link'
       flat
     )
         v-img(
@@ -45,7 +45,8 @@
     v-btn.d-flex.mx-auto(
       color='maincolor'
       dark
-      min-width='500'
+      max-width='500'
+      to='/shop'
     ) 查看所有商品
 </template>
 
@@ -54,10 +55,10 @@ export default {
   data () {
     return {
       recommends: [
-        { name: '帽子', src: 'home-products-1.jpg' },
-        { name: '帳篷', src: 'home-products-2.jpg' },
-        { name: '睡袋', src: 'home-products-3.jpg' },
-        { name: '登山褲', src: 'home-products-4.jpg' }
+        { name: '帽子', src: 'home-products-1.jpg', link: '/product' },
+        { name: '帳篷', src: 'home-products-2.jpg', link: '/product' },
+        { name: '睡袋', src: 'home-products-3.jpg', link: '/product' },
+        { name: '登山褲', src: 'home-products-4.jpg', link: '/product' }
       ]
     }
   }

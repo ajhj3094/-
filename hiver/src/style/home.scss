@@ -4,8 +4,15 @@
   p {
     line-height: 32px !important;
   }
+  span {
+    color: #ad2e39;
+  }
 }
 
+.menu-tab-text {
+  color: #ad2e39 !important;
+  background: hsla(355, 58%, 43%, 0.1);
+}
 
 #recommend {
   // height: 600px;
@@ -43,3 +50,17 @@
     color: $testColor;
   }
 }
+
+// 過渡
+// .transition-fast-in-fast-out
+
+#bottom-navigation {
+  padding: 6px;
+  button > span > span {
+    font-size: 1.1rem;
+  }
+  .theme--dark.v-btn:hover::before {
+    opacity: 0.18;
+  }
+}
+

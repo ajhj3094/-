@@ -1,10 +1,10 @@
 <template lang="pug">
-#shop
+#login
 </template>
 
 <script>
 export default {
-  name: 'Shop',
+  name: 'Login',
   components: {
 
   }

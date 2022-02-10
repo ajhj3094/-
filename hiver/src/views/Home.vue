@@ -5,18 +5,21 @@
       p.mb-0.text-subtitle-2.white--text.text-center
         | 嗨！HIVER 的會員，聖誕節起首筆消費即享有 8 折優惠！活動將於 3/4 截止
   Carousel.mt-8
+  BottomNavigation
   Recommend.pt-10.pb-8
 </template>
 
 <script>
 import Carousel from '../components/Carousel.vue'
 import Recommend from '../components/Recommend.vue'
+import BottomNavigation from '../components/BottomNavigation.vue'
 
 export default {
   name: 'Home',
   components: {
     Carousel,
-    Recommend
+    Recommend,
+    BottomNavigation
   }
 }
 </script>

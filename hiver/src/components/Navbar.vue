@@ -9,12 +9,15 @@ v-app-bar#navbar(
       p.mb-0.text-subtitle-2.white--text
         | 超取 $199 免運費，宅配 $499 免運費(大型商品除外)。滿千送百活動獲得的購物抵用卡開始使用囉！
   .w-100
-    v-container#header-container.xl-mw.pa-0.d-flex
-      v-img.mr-12(
-        :src="require('../assets/logo.png')"
-        contain
-        max-width='125'
+    v-container#header-container.xl-mw.pa-0.d-flex.align-center
+      router-link.mr-12(
+        to='/'
       )
+        v-img(
+          :src="require('../assets/logo.png')"
+          contain
+          max-width='125'
+        )
       v-text-field.flex-grow-0.align-center.mr-auto(
         dense
         outlined
@@ -32,19 +35,23 @@ v-app-bar#navbar(
         )
           v-icon.mr-1(color) {{ btn.icon }}
           p.mb-0.font-weight-light {{ btn.text }}
-    v-container.pa-0
-      v-divider.divider
+    v-divider.divider
   .w-100
     v-container#menu-container.pa-0
       div
-        v-tabs
-          v-tab.px-0(v-for='tab in tabs')
+        v-tabs(
+          color='maincolor'
+          slider-color="maincolor"
+          v-model='active_tab'
+        )
+          v-tab.px-0.self-tab-item(
+            v-for='tab in tabs'
+            :key='tab.id'
+            active-class='menu-tab-text'
+            exact-active-class=''
+          )
             span {{ tab.title }}
             v-divider(inset vertical)
-  //- .w-100.test-color
-  //-   v-container.xl-mw.menutext-container.pa-0
-  //-     p.mb-0.text-subtitle-2.white--text.text-center
-  //-       | 嗨！HIVER 的會員，聖誕節起首筆消費即享有 8 折優惠！活動將於 3/4 截止
 </template>
 
 <script>
@@ -55,15 +62,21 @@ export default {
         { icon: 'mdi-account-outline', text: '登入/註冊' },
         { icon: 'mdi-cart-outline', text: '購物車(0)' }
       ],
+      // 頁面預選單個 tab
+      active_tab: 6,
       tabs: [
-        { title: '露營', to: '' },
-        { title: '登山健行', to: '' },
-        { title: '滑雪', to: '' },
-        { title: '外套', to: '' },
-        { title: '男生', to: '' },
-        { title: '女生', to: '' }
+        { id: 1, title: '露營', to: '' },
+        { id: 2, title: '登山健行', to: '' },
+        { id: 3, title: '滑雪', to: '' },
+        { id: 4, title: '外套', to: '' },
+        { id: 5, title: '男生', to: '' },
+        { id: 6, title: '女生', to: '' },
+        { id: 7, title: '首頁', to: '' }
       ]
     }
+  },
+  mounted () {
+
   }
 }
 </script>

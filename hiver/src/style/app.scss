@@ -7,6 +7,13 @@
       margin-top: -1px;
     }
   }
+  .self-tab-item:nth-child(8),
+  .self-tab-item:nth-child(8).v-tab:before {
+    // display: none;
+    color: #000000 !important;
+    background: $navbarColor;
+    pointer-events: none;
+  }
 }
 
 #navtext-container {

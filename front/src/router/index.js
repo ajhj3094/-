@@ -38,6 +38,14 @@ const routes = [
     }
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
+    meta: {
+      title: 'Hiver | 註冊'
+    }
+  },
+  {
     path: '/cart',
     name: 'Cart',
     component: () => import(/* webpackChunkName: "cart" */ '../views/Cart.vue'),

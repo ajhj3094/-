@@ -1,13 +1,15 @@
 <template lang="pug">
-#login
+#register
+  Forms
 </template>
 
 <script>
+import Forms from '../components/Forms.vue'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   components: {
-
+    Forms
   }
 }
 </script>

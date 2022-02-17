@@ -10,9 +10,9 @@
   .self-tab-item:nth-child(8),
   .self-tab-item:nth-child(8).v-tab:before {
     // display: none;
-    color: #000000 !important;
-    background: $navbarColor;
-    pointer-events: none;
+    // color: #000000 !important;
+    // background: $navbarColor;
+    // pointer-events: none;
   }
 }
 
@@ -60,5 +60,13 @@
   }
   span {
     width: 150px;
+  }
+  .mdi-chevron-right,
+  .mdi-chevron-left {
+    transition: all 250ms ease-out;
+    border-radius: 25px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   }
 }

@@ -63,7 +63,8 @@ export default {
   data () {
     return {
       btns: [
-        { icon: 'mdi-account-outline', text: '登入/註冊', to: '/register' },
+        { icon: 'mdi-account-outline', text: '註冊', to: '/register' },
+        { icon: 'mdi-account-outline', text: '登入', to: '/login' },
         { icon: 'mdi-cart-outline', text: '購物車(0)', to: '/cart' }
       ],
       // 頁面預選單個 tab

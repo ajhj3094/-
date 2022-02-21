@@ -30,12 +30,39 @@ v-app-bar#navbar(
             v-icon mdi-magnify
       .d-flex.align-center
         v-btn.ml-3(
-          v-for='btn in btns'
           depressed
-          :to='btn.to'
+          to='/register'
+          v-if='!user.isLogin'
         )
-          v-icon.mr-1(color) {{ btn.icon }}
-          p.mb-0.font-weight-light {{ btn.text }}
+          v-icon.mr-1(color) mdi-account-outline
+          p.mb-0.font-weight-light 註冊
+        v-btn.ml-3(
+          depressed
+          to='/login'
+          v-if='!user.isLogin'
+        )
+          v-icon.mr-1(color) mdi-account-outline
+          p.mb-0.font-weight-light 登入
+        v-btn.ml-3(
+          depressed
+          to='/admin'
+          v-if='user.isLogin && user.isAdmin'
+        )
+          v-icon.mr-1(color) mdi-account-outline
+          p.mb-0.font-weight-light 管理者
+        v-btn.ml-3(
+          depressed
+          @click='logout'
+          v-if='user.isLogin'
+        )
+          v-icon.mr-1(color) mdi-account-outline
+          p.mb-0.font-weight-light 登出
+        v-btn.ml-3(
+          depressed
+          to='/cart'
+        )
+          v-icon.mr-1(color) mdi-cart-outline
+          p.mb-0.font-weight-light 購物車(0)
     v-divider.divider
   .w-100
     v-container#menu-container.pa-0
@@ -45,14 +72,14 @@ v-app-bar#navbar(
           slider-color="maincolor"
           v-model='active_tab'
           show-arrows
+          hide-slider
         )
           //- v-tabs-slider(color="maincolor")
           v-tab.px-0.self-tab-item(
             v-for='tab in tabs'
             :key='tab.id'
             :to='tab.to'
-            active-class='menu-tab-text'
-            exact-active-class=''
+            exact-active-class='menu-tab-text'
           )
             span {{ tab.title }}
             v-divider(inset vertical)
@@ -65,6 +92,7 @@ export default {
       btns: [
         { icon: 'mdi-account-outline', text: '註冊', to: '/register' },
         { icon: 'mdi-account-outline', text: '登入', to: '/login' },
+        { icon: 'mdi-account-outline', text: '登出' },
         { icon: 'mdi-cart-outline', text: '購物車(0)', to: '/cart' }
       ],
       // 頁面預選單個 tab
@@ -80,8 +108,10 @@ export default {
       ]
     }
   },
-  mounted () {
-
+  methods: {
+    logout () {
+      this.$store.dispatch('user/logout')
+    }
   }
 }
 </script>

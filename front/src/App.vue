@@ -12,10 +12,9 @@ export default {
   name: 'App',
   components: {
     Navbar
+  },
+  async created () {
+    this.$store.dispatch('user/getInfo')
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

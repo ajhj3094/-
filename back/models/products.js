@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     enum: {
-      values: ['登山健行', '滑雪', '外套', '男生', '女生'],
+      values: ['登山健行', '滑雪', '外套', '露營'],
       message: '商品分類不存在'
     }
   }

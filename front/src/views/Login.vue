@@ -58,14 +58,8 @@ export default {
     }
   },
   methods: {
-    async login () {
-      try {
-        const { data } = await this.api.post('/users/login', this.form)
-        this.$store.commit('user/login', data.result)
-        this.$router.push('/')
-      } catch (error) {
-
-      }
+    login () {
+      this.$store.dispatch('user/login', this.form)
     }
   }
 }

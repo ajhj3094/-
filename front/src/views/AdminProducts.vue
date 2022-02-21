@@ -83,7 +83,7 @@ export default {
         price: null,
         description: '',
         image: null,
-        sell: null,
+        sell: false,
         category: null,
         _id: ''
       },
@@ -169,8 +169,7 @@ export default {
         description: '',
         image: null,
         sell: false,
-        category: null,
-        _id: ''
+        category: null
       }
     }
   },

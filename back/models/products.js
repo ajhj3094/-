@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
     type: String
   },
   sell: {
-    Boolean,
+    type: Boolean,
     default: false
   },
   category: {

@@ -44,7 +44,7 @@
             取消
           v-btn.mr-1(color='primary' dark @click='reset()').
             清空表單
-          v-btn.mr-4(:disabled='!valid || modalSubmitting || form.image === null' color='success' @click='validate();submitModal()').
+          v-btn.mr-4(:disabled='!valid || modalSubmitting' color='success' @click='validate();submitModal()').
             完成送出
   v-simple-table
     template(v-slot:default)
@@ -56,8 +56,8 @@
           ) {{ thead }}
       tbody
         tr(
-          v-for='product in products'
-          :key='product.name'
+          v-for='(product, index) in products'
+          :key='product._id'
         )
           td
             img(v-if='product.image' :src='product.image' style='height: 50px')
@@ -67,7 +67,8 @@
           td {{ product.description }}
           td
             h1 {{ product.sell ? 'v' : '' }}
-          td {{ product._id }}
+          td
+            v-btn(color='success' @click='editProduct(index)') 編輯
 </template>
 
 <script>
@@ -85,7 +86,8 @@ export default {
         image: null,
         sell: false,
         category: null,
-        _id: ''
+        _id: '',
+        index: -1
       },
       valid: true,
       pnameRules: [
@@ -94,7 +96,6 @@ export default {
       ],
       priceRules: [
         v => !!v || 'Price is required',
-        v => (v && v.length <= 10) || 'Price must be less than 10 characters',
         v => v >= 0 || '價格不能小於 0'
       ],
       items: [
@@ -108,7 +109,14 @@ export default {
   },
   computed: {
     isEdit () {
-      return this.form._id.length ? '編輯商品' : '新增商品'
+      return this.form._id ? '編輯商品' : '新增商品'
+    },
+    editDontNeedImg () {
+      if (this.form._id.length === 0) {
+        return ''
+      } else {
+        return this.form.image === null
+      }
     }
   },
   methods: {
@@ -121,7 +129,8 @@ export default {
       this.form = {
         image: null,
         category: null,
-        _id: ''
+        _id: '',
+        index: -1
       }
     },
     async submitModal () {
@@ -131,27 +140,48 @@ export default {
         if (key !== '_id') {
           fd.append(key, this.form[key])
         }
-        console.log(key)
-        console.log(this.form)
-        console.log(this.form[key])
-        console.log(fd)
       }
       try {
-        const { data } = await this.api.post('/products', fd, {
-          headers: {
-            authorization: 'Bearer ' + this.user.token
-          }
-        })
-        console.log(data)
-        this.products.push(data.result)
+        if (this.form._id.length === 0) {
+          const { data } = await this.api.post('/products', fd, {
+            headers: {
+              authorization: 'Bearer ' + this.user.token
+            }
+          })
+          this.products.push(data.result)
+        } else {
+          const { data } = await this.api.patch('/products/' + this.form._id, fd, {
+            headers: {
+              authorization: 'Bearer ' + this.user.token
+            }
+          })
+          // console.log(...this.form)
+          // this.products[this.form.index] = { ...this.form, image: data.result.image }
+          // 編輯後 table 不會更新，所有這裡編輯後整條刪除後再丟編輯後的進去那該位置
+          this.products.splice(this.form.index, 1, data.result)
+        }
         this.dialog = false
         this.reset()
       } catch (error) {
-        this.$swal({
-          icon: 'error',
-          title: '錯誤',
-          text: error.response.data.message
-        })
+        if (this.form.name === '' || (this.form.price === null || '') || this.form.category === null) {
+          this.$swal({
+            icon: 'error',
+            title: '錯誤',
+            text: '必填欄位不能為空'
+          })
+        } else if (this.form.image === null) {
+          this.$swal({
+            icon: 'error',
+            title: '錯誤',
+            text: '圖片欄位不得為空'
+          })
+        } else {
+          this.$swal({
+            icon: 'error',
+            title: '錯誤',
+            text: error.response.data.message
+          })
+        }
       }
       this.modalSubmitting = false
     },
@@ -169,15 +199,20 @@ export default {
         description: '',
         image: null,
         sell: false,
-        category: null
+        category: null,
+        index: -1
       }
+    },
+    editProduct (index) {
+      this.form = { ...this.products[index], image: null, index }
+      this.dialog = true
     }
   },
   async created () {
     try {
       const { data } = await this.api.get('/products/all', {
         headers: {
-          authorization: 'Bearer ' + 'this.user.token'
+          authorization: 'Bearer ' + this.user.token
         }
       })
       this.products = data.result

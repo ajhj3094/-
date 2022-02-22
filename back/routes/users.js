@@ -7,7 +7,10 @@ import {
   login,
   logout,
   extend,
-  getUserInfo
+  getUserInfo,
+  addCart,
+  getCart,
+  updateCart
 } from '../controllers/users.js'
 
 const router = express.Router()
@@ -17,5 +20,8 @@ router.post('/login', content('application/json'), login)
 router.post('/extend', auth, extend)
 router.delete('/logout', auth, logout)
 router.get('/me', auth, getUserInfo)
+router.post('/me/cart', auth, addCart)
+router.get('/me/cart', auth, getCart)
+router.patch('/me/cart', auth, updateCart)
 
 export default router

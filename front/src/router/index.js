@@ -39,6 +39,14 @@ const routes = [
     }
   },
   {
+    path: '/product/:id',
+    name: 'Product',
+    component: () => import(/* webpackChunkName: "product" */ '../views/Product.vue'),
+    meta: {
+      title: 'Hiver | 商品'
+    }
+  },
+  {
     path: '/register',
     name: 'Register',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
@@ -98,6 +106,11 @@ const routes = [
           admin: true,
           title: 'Hiver | 顧客回饋系統'
         }
+      },
+      {
+        path: '*',
+        name: 'NotFound',
+        redirect: '/'
       }
     ]
   }

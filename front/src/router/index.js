@@ -11,7 +11,8 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: 'Hiver'
+      title: 'Hiver',
+      transition: 'fade'
     }
   },
   {

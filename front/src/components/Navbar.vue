@@ -63,7 +63,14 @@ v-app-bar#navbar(
           v-if='user.isLogin'
         )
           v-icon.mr-1(color) mdi-cart-outline
-          p.mb-0.font-weight-light 購物車(0)
+          p.mb-0.font-weight-light(v-if='user.cart === 0') 購物車
+          v-badge(
+            color='error'
+            :content='user.cart'
+            offset-x='-4'
+            offset-y='0'
+            v-if='user.cart > 0'
+          ) 購物車
     v-divider.divider
   .w-100
     v-container#menu-container.pa-0

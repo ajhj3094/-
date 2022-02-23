@@ -10,9 +10,11 @@ import './style/all.scss'
 import mixin from './mixin.js'
 import ImgInputer from 'vue-img-inputer'
 import 'vue-img-inputer/dist/index.css'
+import VuePageTransition from 'vue-page-transition'
 
 Vue.component('ImgInputer', ImgInputer)
 Vue.use(VueSweetalert2)
+Vue.use(VuePageTransition)
 Vue.mixin(mixin)
 
 Vue.config.productionTip = false

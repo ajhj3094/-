@@ -32,6 +32,7 @@ export const login = async (req, res) => {
       const result = user.toObject()
       delete result.tokens
       result.token = token
+      result.cart = result.cart.length
       res.status(200).send({ success: true, message: '', result })
     } else {
       res.status(404).send({ success: false, message: '帳號或密碼錯誤' })
@@ -69,6 +70,7 @@ export const getUserInfo = (req, res) => {
   try {
     const result = req.user.toObject()
     delete result.tokens
+    result.cart = result.cart.length
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     res.status(500).send({ success: false, message: '伺服器錯誤' })
@@ -114,33 +116,33 @@ export const getCart = async (req, res) => {
 export const updateCart = async (req, res) => {
   try {
     if (req.body.quantity === 0) {
-      await users.findByIdAndUpdate(req.user._id,
-        {
-          $pull: {
-            cart: { product: req.body.product }
-          }
-        }
-      )
-      // const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
-      // if (idx > -1) {
-      //   req.user.cart.splice(idx, 1)
-      // }
-      // await req.user.save()
+      // await users.findByIdAndUpdate(req.user._id,
+      //   {
+      //     $pull: {
+      //       cart: { product: req.body.product }
+      //     }
+      //   }
+      // )
+      const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
+      if (idx > -1) {
+        req.user.cart.splice(idx, 1)
+      }
+      await req.user.save()
       res.status(200).send({ success: true, message: '' })
     } else {
-      await users.findOneAndUpdate(
-        { _id: req.user._id, 'cart.product': req.body.product },
-        {
-          $set: {
-            'cart.$.quantity': req.body.quantity
-          }
-        }
-      )
-      // const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
-      // if (idx > -1) {
-      //   req.user.cart[idx].quantity = req.body.quantity
-      // }
-      // await req.user.save()
+      // await users.findOneAndUpdate(
+      //   { _id: req.user._id, 'cart.product': req.body.product },
+      //   {
+      //     $set: {
+      //       'cart.$.quantity': req.body.quantity
+      //     }
+      //   }
+      // )
+      const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
+      if (idx > -1) {
+        req.user.cart[idx].quantity = req.body.quantity
+      }
+      await req.user.save()
       res.status(200).send({ success: true, message: '' })
     }
   } catch (error) {

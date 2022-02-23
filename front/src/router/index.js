@@ -59,7 +59,8 @@ const routes = [
     name: 'Cart',
     component: () => import(/* webpackChunkName: "cart" */ '../views/Cart.vue'),
     meta: {
-      title: 'Hiver | 購物車'
+      title: 'Hiver | 購物車',
+      login: true
     }
   },
   {

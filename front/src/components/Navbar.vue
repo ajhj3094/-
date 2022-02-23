@@ -60,6 +60,7 @@ v-app-bar#navbar(
         v-btn.ml-3(
           depressed
           to='/cart'
+          v-if='user.isLogin'
         )
           v-icon.mr-1(color) mdi-cart-outline
           p.mb-0.font-weight-light 購物車(0)

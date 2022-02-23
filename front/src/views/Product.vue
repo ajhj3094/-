@@ -9,7 +9,20 @@ v-container#product
     v-col(cols='6')
       h4.text-right $ {{ price }}
       v-form
-        v-text-field(type='number' v-model.number='quantity' min='0' :rules='qtyrules')
+        v-text-field(
+          height='20'
+          width='50'
+          type='number'
+          v-model.number='quantity'
+          min='0'
+          :rules='qtyrules'
+          hide-spin-buttons
+          outlined
+          append-icon='mdi-plus'
+          prepend-inner-icon='mdi-minus'
+          @click:append='quantity++'
+          @click:prepend-inner='quantity > 0 ? quantity-- : null'
+        )
       v-btn(color='primary' @click='addCart') 加入購物車
     v-col(cols='12')
       v-img.w-100(:src='image')
@@ -24,7 +37,6 @@ export default {
   },
   data () {
     return {
-
       name: '',
       price: 0,
       description: '',
@@ -41,7 +53,7 @@ export default {
   },
   methods: {
     addCart () {
-      this.$store.dispatch('user/addCart', { id: this.$route.params.id, quantity: this.quantity })
+      this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity })
     }
   },
   computed: {
@@ -57,6 +69,7 @@ export default {
       this.image = data.result.image
       this.sell = data.result.sell
       this.category = data.result.category
+      document.title = `Hiver | ${this.name}`
     } catch (error) {
       this.$router.push('/')
     }

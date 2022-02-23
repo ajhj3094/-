@@ -1,0 +1,16 @@
+#product {
+  .v-text-field__slot input {
+    text-align: center;
+  }
+  .v-icon.v-icon {
+    font-size: 30px;
+  }
+  button.v-icon.mdi-minus {
+    border-right: 1px solid rgba(0,0,0,0.2);
+    padding: 0 6px;
+  }
+  button.v-icon.mdi-plus {
+    border-left: 1px solid rgba(0,0,0,0.2);
+    padding: 0 6px;
+  }
+}

@@ -10,6 +10,7 @@ v-container#product
       h4.text-right $ {{ price }}
       v-form
         v-text-field(
+          readonly
           height='20'
           width='50'
           type='number'

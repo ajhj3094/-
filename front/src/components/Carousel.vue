@@ -30,9 +30,9 @@ export default {
       model: 0,
       pics: [
         'https://picsum.photos/seed/picsum/1920/1080',
-        'https://picsum.photos/seed/picsum/1920/1080',
-        'https://picsum.photos/seed/picsum/1920/1080',
-        'https://picsum.photos/seed/picsum/1920/1080'
+        'https://picsum.photos/1920/1080',
+        'https://picsum.photos/id/1003/1920/1080',
+        'https://picsum.photos/1920/1080?grayscale'
       ]
     }
   }

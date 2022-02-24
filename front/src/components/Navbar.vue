@@ -59,6 +59,13 @@ v-app-bar#navbar(
           p.mb-0.font-weight-light 登出
         v-btn.ml-3(
           depressed
+          v-if='user.isLogin'
+          to='/orders'
+        )
+          v-icon.mr-1(color) mdi-account-outline
+          p.mb-0.font-weight-light 訂單
+        v-btn.ml-3(
+          depressed
           to='/cart'
           v-if='user.isLogin'
         )
@@ -88,6 +95,7 @@ v-app-bar#navbar(
             :key='tab.id'
             :to='tab.to'
             exact-active-class='menu-tab-text'
+            append
           )
             span {{ tab.title }}
             v-divider(inset vertical)
@@ -118,7 +126,20 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.dispatch('user/logout')
+      this.$swal.fire({
+        title: '登出',
+        text: '確定要登出嗎？',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '確定，請幫我登出',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store.dispatch('user/logout')
+        }
+      })
     }
   }
 }

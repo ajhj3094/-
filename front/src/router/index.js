@@ -12,7 +12,7 @@ const routes = [
     component: Home,
     meta: {
       title: 'Hiver',
-      transition: 'fade'
+      transition: 'fade-in-down'
     }
   },
   {
@@ -65,6 +65,15 @@ const routes = [
     }
   },
   {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import(/* webpackChunkName: "orders" */ '../views/Orders.vue'),
+    meta: {
+      title: 'Hiver | 訂單',
+      login: true
+    }
+  },
+  {
     path: '/admin',
     name: 'Admin',
     component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue'),
@@ -108,13 +117,13 @@ const routes = [
           admin: true,
           title: 'Hiver | 顧客回饋系統'
         }
-      },
-      {
-        path: '*',
-        name: 'NotFound',
-        redirect: '/'
       }
     ]
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    redirect: '/'
   }
 ]
 

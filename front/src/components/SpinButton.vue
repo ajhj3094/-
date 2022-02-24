@@ -11,8 +11,8 @@ v-form.spin-button
     outlined
     append-icon='mdi-plus'
     prepend-inner-icon='mdi-minus'
-    @click:append='test++;changeValue(test)'
-    @click:prepend-inner='test > 1 ? test-- : null;changeValue(test)'
+    @click:append='quantity++;changeValue(test)'
+    @click:prepend-inner='quantity > 1 ? quantity-- : null;changeValue(test)'
     @input='changeValue(test)'
   )
 </template>

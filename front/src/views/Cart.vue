@@ -5,6 +5,7 @@ v-container#cart
     :items="products"
     :items-per-page="5"
     class="elevation-1"
+    :item-class='rowClass'
   )
     template(#item.product.image="{ item }")
       v-img(:src='item.product.image' height='60' width='100' contain)
@@ -30,6 +31,9 @@ v-container#cart
           style='width: 140px'
         )
       v-btn(color='error' @click='updateCart(item._id, 0)') 刪除
+      h2.ml-15.white--text(v-if='!item.product.sell') 商品已下架
+  h1 總金額 {{ total.toString() }}
+  v-btn(@click='checkout' color='error' :disabled='products.length === 0') 結帳
 </template>
 
 <script>
@@ -64,6 +68,38 @@ export default {
     }
   },
   methods: {
+    rowClass (item) {
+      // console.log(item)
+      // const rowClass = 'rowClass'
+      return !item.product.sell ? 'error' : ''
+    },
+    async checkout () {
+      try {
+        // post 第二個是送出去的東西，沒有要 post 的也必須放個空個
+        await this.api.post('/orders', {}, {
+          headers: {
+            authorization: 'Bearer ' + this.user.token
+          }
+        })
+        this.$router.push('/orders')
+        // 結帳後購物車小數字歸零
+        this.$store.commit('user/updateCart', 0)
+        this.$swal({
+          icon: 'success',
+          title: '成功',
+          text: '結帳成功😆'
+        })
+      } catch (error) {
+        this.$swal({
+          icon: 'error',
+          title: '失敗',
+          text: '結帳失敗'
+        })
+      }
+    },
+    // test () {
+    //   console.log(this.products)
+    // },
     async updateCart (id, quantity) {
       try {
         const index = this.products.map(item => item._id).indexOf(id)
@@ -88,15 +124,13 @@ export default {
           text: '修改購物車失敗'
         })
       }
-      // const arr2 = this.products.filter(item => {
-      //   return item.product._id === id
-      // })
-      // this.products.forEach((value, index, arr) => {
-      //   console.log(value, index, arr)
-      // })
-    },
-    handleChangeValue (value) {
-      console.log(value)
+    }
+  },
+  computed: {
+    total () {
+      return this.products.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.quantity * currentValue.product.price
+      }, 0)
     }
   },
   async created () {
@@ -107,7 +141,6 @@ export default {
         }
       })
       this.products = data.result
-      console.log(this.products[0])
     } catch (error) {
       this.$swal({
         icon: 'error',

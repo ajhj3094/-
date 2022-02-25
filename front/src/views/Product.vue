@@ -28,6 +28,16 @@ v-container#product
     v-col(cols='12')
       v-img.w-100(:src='image')
       p(style='white-space: pre;') {{ description }}
+    v-col(cols='12')
+      v-textarea(
+        outlined
+        v-model='textarea'
+        @keydown.enter='sumbit()'
+      )
+    v-col(cols='12')
+      table
+        tr
+          td(v-for='review in reviews') {{  }}
 </template>
 
 <script>
@@ -49,12 +59,16 @@ export default {
       qtyrules: [
         v => v > 0 || '數量必須大於 0',
         v => !!v || '必填項目'
-      ]
+      ],
+      textarea: ''
     }
   },
   methods: {
     addCart () {
       this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity })
+    },
+    submit () {
+
     }
   },
   computed: {

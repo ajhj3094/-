@@ -35,7 +35,7 @@ app.use('/products', productsRouter)
 app.use('/orders', ordersRouter)
 
 app.all('*', (req, res) => {
-  res.status(404).send({ success: false, message: '找不到' })
+  res.status(404).send({ success: false, message: '------找不到--------' })
 })
 
 app.listen(process.env.PORT || 3000, () => {

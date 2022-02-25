@@ -22,10 +22,17 @@ v-app-bar#navbar(
         dense
         outlined
         color='#000000'
+        @input='search()'
+        v-model='keywords'
+        @change='search(0)'
+        @click:append='search(0)'
+        @keydown.enter='search(0)'
+        placeholder='品名/分類/描述'
       )
         template(v-slot:append)
           v-btn(
             icon
+            @click='search(0)'
           )
             v-icon mdi-magnify
       .d-flex.align-center
@@ -125,6 +132,14 @@ export default {
     }
   },
   methods: {
+    search (value) {
+      if (value === 0) {
+        this.$store.dispatch('product/search', this.keywords)
+        this.$router.push('/shop')
+        return
+      }
+      this.$store.dispatch('product/search', this.keywords)
+    },
     logout () {
       this.$swal.fire({
         title: '登出',

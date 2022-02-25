@@ -1,8 +1,10 @@
 <template lang="pug">
 v-container#shop
   v-row
-    v-col(cols='12' md='6' lg='3' v-for='product in products' :key='product._id')
-      ProductCard(:product='product')
+    v-col(cols='12' md='6' lg='3' v-for='product in keywords' :key='product._id')
+      ProductCard(
+        :product='product'
+      )
 </template>
 
 <script>
@@ -28,6 +30,13 @@ export default {
         title: '錯誤',
         text: '商品取得失敗'
       })
+    }
+  },
+  methods: {
+  },
+  computed: {
+    keywords () {
+      return this.$store.state.product.keywords
     }
   }
 }

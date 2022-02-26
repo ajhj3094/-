@@ -118,8 +118,8 @@ export default {
       Gitems: [
         { text: '--請選擇使用者分類--', value: null },
         '通用',
-        '女性',
-        '男性'
+        '男生',
+        '女生'
       ]
     }
   },

@@ -50,12 +50,14 @@ export const getProductById = async (req, res) => {
 }
 
 export const updateProductById = async (req, res) => {
+  console.log(req.body)
   const data = {
     name: req.body.name,
     price: req.body.price,
     description: req.body.description,
     sell: req.body.sell,
-    category: req.body.category
+    category: req.body.category,
+    gender: req.body.gender
   }
 
   if (req.file) {
@@ -83,7 +85,8 @@ export const searchProducts = async (req, res) => {
       $or: [
         { name: { $in: [] } },
         { description: { $in: [] } },
-        { category: { $in: [] } }
+        { category: { $in: [] } },
+        { gender: { $in: [] } }
       ]
     }
 
@@ -109,6 +112,7 @@ export const searchProducts = async (req, res) => {
       query.$or[0].name.$in = keywords
       query.$or[1].description.$in = keywords
       query.$or[2].category.$in = keywords
+      query.$or[3].gender.$in = keywords
     } else {
       // 如果沒有關鍵字，把 $or 清空，否則會找不到東西
       delete query.$or
@@ -126,9 +130,27 @@ export const searchProducts = async (req, res) => {
 }
 
 export const addreviewById = async (req, res) => {
-  // try {
+  // console.log(req.user)
+  const data = {
+    user: req.user.account,
+    rating: req.body.rating,
+    text: req.body.text
+  }
 
-  // } catch (error) {
-
-  // }
+  try {
+    const result = await products.findByIdAndUpdate(req.params.id, { new: true, runValidators: true })
+    result.review.push(data)
+    result.save()
+    console.log(result)
+    res.status(200).send({ success: true, message: '', result })
+  } catch (error) {
+    if (error.name === 'CastError') {
+      res.status(404).send({ success: false, message: '找不到' })
+    } else if (error.name === 'ValidationError') {
+      const key = Object.keys(error.errors)[0]
+      res.status(400).send({ success: false, message: error.errors[key].message })
+    } else {
+      res.status(500).send({ success: false, message: '伺服器錯誤' })
+    }
+  }
 }

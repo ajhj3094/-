@@ -6,7 +6,8 @@ export const login = async ({ commit }, form) => {
   try {
     const { data } = await api.post('users/login', form)
     commit('login', data.result)
-    router.push('/')
+    // router.push('/')
+    router.go(-1)
     swal.fire({
       icon: 'success',
       title: '成功',

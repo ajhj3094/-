@@ -1,5 +1,6 @@
 export default () => {
   return {
-    keywords: []
+    keywords: [],
+    searchBar: ''
   }
 }

@@ -1,7 +1,11 @@
 <template lang="pug">
 v-container#shop
   v-row
-    v-col(cols='12' md='6' lg='3' v-for='product in keywords' :key='product._id')
+    v-col(cols='12' md='6' lg='3' v-if='searchBar.length > 0' v-for='product in keywords' :key='product._id')
+      ProductCard(
+        :product='product'
+      )
+    v-col(cols='12' md='6' lg='3' v-if='searchBar.length === 0' v-for='product in products' :key='product._id')
       ProductCard(
         :product='product'
       )
@@ -37,6 +41,9 @@ export default {
   computed: {
     keywords () {
       return this.$store.state.product.keywords
+    },
+    searchBar () {
+      return this.$store.state.product.searchBar
     }
   }
 }

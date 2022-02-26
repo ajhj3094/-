@@ -4,3 +4,7 @@
 export const search = (state, data) => {
   state.keywords = data
 }
+
+export const updateKeywords = (state, data) => {
+  state.searchBar = data
+}

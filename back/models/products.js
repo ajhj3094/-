@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
   gender: {
     type: String,
     enum: {
-      values: ['通用', '男生', '女生'],
+      values: ['通用', '女性', '男性'],
       message: '使用性別不存在'
     }
   },
@@ -42,7 +42,7 @@ const productSchema = new mongoose.Schema({
           ref: 'users',
           required: [true, '缺少使用者名稱']
         },
-        rank: {
+        rating: {
           type: Number,
           required: [true, '缺少評分']
         },

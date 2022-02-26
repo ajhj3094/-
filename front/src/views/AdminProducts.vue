@@ -4,15 +4,16 @@
   .text-center
     v-dialog(v-model='dialog' width='500' @click:outside='resetForm()')
       template(v-slot:activator='{ on, attrs }')
-        v-btn(color='red lighten-2' dark v-bind='attrs' v-on='on').
+        v-btn(color='red lighten-2' dark v-bind='attrs' v-on='on' @click='test').
           新增商品
       v-card
         v-card-title.text-h5.grey.lighten-2.
           {{ isEdit }}
         v-form.mx-5.my-5(ref='form' v-model='valid' lazy-validation)
           v-text-field(v-model='form.name' outlined :counter='10' :rules='pnameRules' label='商品名稱' required)
-          v-text-field.mt-2(type='number' outlined v-model='form.price' :counter='10' :rules='priceRules' label='商品價格' required prefix='$')
-          v-select.mt-5.test123(v-model='form.category' outlined :items='items' :rules="[v => !!v || 'Item is required']" label='商品分類' required)
+          v-text-field.mt-2(type='number' hide-spin-buttons outlined v-model='form.price' :counter='10' :rules='priceRules' label='商品價格' required prefix='$')
+          v-select.mt-5.test123(v-model='form.category' outlined :items='Pitems' :rules="[v => !!v || 'Item is required']" label='商品分類' required)
+          v-select.mt-5.test123(v-model='form.gender' outlined :items='Gitems' :rules="[v => !!v || 'Gender is required']" label='使用者分類' required)
           v-textarea.mt-5(
             v-model='form.description'
             placeholder='請輸入商品描述'
@@ -46,36 +47,44 @@
             清空表單
           v-btn.mr-4(:disabled='!valid || modalSubmitting' color='success' @click='validate();submitModal()').
             完成送出
-  v-simple-table
-    template(v-slot:default)
-      thead
-        tr
-          th.text-left(
-            v-for='thead in theads'
-            :key='thead.name'
-          ) {{ thead }}
-      tbody
-        tr(
-          v-for='(product, index) in products'
-          :key='product._id'
-        )
-          td
-            img(v-if='product.image' :src='product.image' style='height: 50px')
-          td {{ product.name }}
-          td {{ product.price }}
-          td {{ product.category }}
-          td {{ product.description }}
-          td
-            h1 {{ product.sell ? 'v' : '' }}
-          td
-            v-btn(color='success' @click='editProduct(index)') 編輯
+  v-data-table(
+    :headers="headers"
+    :items="products"
+    :items-per-page="5"
+    class="elevation-1"
+    show-group-by
+    sort-by="sell"
+    group-by="category"
+    item-key="_id"
+    no-data-text='沒有商品'
+  )
+    template(#item.image='{item}')
+      v-img(:src='item.image' style='width: 70px;height: 50px' contain)
+    template(#item.price='{item}')
+      //- div.d-flex.justify-space-between(style="width:30%")
+      p.mb-0 NT$
+        span.ml-2 {{item.price}}
+    template(#item.sell='{item}')
+      h1 {{item.sell ? 'v' : ''}}
+    template(#item.none='{item}')
+      v-btn(color='success' @click='editProduct(item._id)') 編輯
 </template>
 
 <script>
 export default {
   data () {
     return {
-      theads: ['圖片', '名稱', '價格', '分類', '說明', '上架', '操作'],
+      // theads: ['圖片', '名稱', '價格', '分類', '說明', '上架', '操作'],
+      headers: [
+        { text: '圖片', align: 'start', sortable: false, value: 'image', groupable: false },
+        { text: '名稱', value: 'name' },
+        { text: '價格', value: 'price' },
+        { text: '商品分類', value: 'category' },
+        { text: '使用者分類', value: 'gender' },
+        { text: '說明', value: 'description' },
+        { text: '上架', value: 'sell' },
+        { text: '操作', align: 'end', value: 'none' }
+      ],
       products: [],
       modalSubmitting: false,
       dialog: false,
@@ -86,6 +95,7 @@ export default {
         image: null,
         sell: false,
         category: null,
+        gender: null,
         _id: '',
         index: -1
       },
@@ -98,12 +108,18 @@ export default {
         v => !!v || 'Price is required',
         v => v >= 0 || '價格不能小於 0'
       ],
-      items: [
-        { text: '請選擇分類', value: null },
+      Pitems: [
+        { text: '--請選擇商品分類--', value: null },
         '登山健行',
         '滑雪',
         '外套',
         '露營'
+      ],
+      Gitems: [
+        { text: '--請選擇使用者分類--', value: null },
+        '通用',
+        '女性',
+        '男性'
       ]
     }
   },
@@ -120,6 +136,13 @@ export default {
     }
   },
   methods: {
+    clickoutside () {
+      this.dialog = true
+      console.log('aa')
+    },
+    test () {
+      console.log(this.user)
+    },
     validate () {
       this.$refs.form.validate()
       // this.$refs.form.validate() ? this.dialog = false : this.dialog = true
@@ -129,6 +152,7 @@ export default {
       this.form = {
         image: null,
         category: null,
+        gender: null,
         _id: '',
         index: -1
       }
@@ -192,7 +216,7 @@ export default {
         event.preventDefault()
         return
       }
-      this.dialog = false
+      // this.dialog = false
       this.form = {
         name: '',
         price: null,
@@ -200,10 +224,12 @@ export default {
         image: null,
         sell: false,
         category: null,
+        gender: null,
         index: -1
       }
     },
-    editProduct (index) {
+    editProduct (id) {
+      const index = this.products.map(item => item._id).indexOf(id)
       this.form = { ...this.products[index], image: null, index }
       this.dialog = true
     }

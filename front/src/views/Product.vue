@@ -31,13 +31,34 @@ v-container#product
     v-col(cols='12')
       v-textarea(
         outlined
-        v-model='textarea'
-        @keydown.enter='sumbit()'
+        v-model='form.text'
+        @keydown.enter='submit()'
       )
+      v-btn(@click='submit()') 送出
     v-col(cols='12')
+      v-rating(
+        v-model='starRating'
+        background-color="grey lighten-1"
+        color="warning"
+        dense
+        half-increments
+        hover
+        length="5"
+        size="33"
+        value="3"
+      )
+      v-avatar(
+
+      )
+        v-img(:src='"https://source.boringavatars.com/beam/120/" + this.user.token')
       table
         tr
-          td(v-for='review in reviews') {{  }}
+          td(v-for='item in review' :key='item._id')
+            | {{ item.user }}
+            br
+            | {{ item.rating }}
+            br
+            | {{ item.text }}
 </template>
 
 <script>
@@ -60,15 +81,39 @@ export default {
         v => v > 0 || '數量必須大於 0',
         v => !!v || '必填項目'
       ],
-      textarea: ''
+      review: [],
+      form: {
+        rating: 1,
+        text: '嗨'
+      },
+      starRating: 3
     }
   },
   methods: {
     addCart () {
       this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity })
     },
-    submit () {
-
+    async submit () {
+      try {
+        if (!this.user.isLogin) {
+          this.$swal({
+            icon: 'success',
+            title: '未登入',
+            text: '請先登入'
+          })
+          this.$router.push('/login')
+          return
+        }
+        const { data } = await this.api.post('/products/' + this.$route.params.id, this.form, {
+          headers: {
+            authorization: 'Bearer ' + this.user.token
+          }
+        })
+        console.log(data)
+        this.review = data.result.review
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   computed: {
@@ -84,6 +129,7 @@ export default {
       this.image = data.result.image
       this.sell = data.result.sell
       this.category = data.result.category
+      this.review = data.result.review
       document.title = `Hiver | ${this.name}`
     } catch (error) {
       this.$router.push('/')

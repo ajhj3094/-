@@ -1,5 +1,12 @@
 <template lang="pug">
 v-container#shop
+  v-card.d-flex.flex-column.justify-end.px-5.py-6.my-5(
+    img='https://picsum.photos/id/10/1920/1080'
+    height='400'
+  )
+    v-card-title
+      p.white--text() 登山健行
+  div(style='height:35px').my-6.test-color
   v-row
     v-col(cols='12' md='6' lg='3' v-if='searchBar.length > 0' v-for='product in keywords' :key='product._id')
       ProductCard(

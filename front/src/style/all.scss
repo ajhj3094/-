@@ -6,6 +6,7 @@ $bgColor: #F7F1E6;
 $accentColor: #D8BE8D;
 $testColor: #ad2e39;
 $cardbgColor: #F2DDC9;
+$buttonColor: #c8652a;
 $ctFont: 'Noto Sans TC', sans-serif;
 $font: 'Noto Sans', sans-serif;
 $navTextHeight: 36px;
@@ -63,4 +64,8 @@ p, span{
 
 .z-100 {
   z-index: 100 !important;
+}
+
+.mt-165 {
+  margin-top: 165px;
 }

@@ -37,7 +37,7 @@ v-container#product
       v-btn(@click='submit()') 送出
     v-col(cols='12')
       v-rating(
-        v-model='starRating'
+        v-model='form.rating'
         background-color="grey lighten-1"
         color="warning"
         dense
@@ -83,7 +83,7 @@ export default {
       ],
       review: [],
       form: {
-        rating: 1,
+        rating: 3,
         text: '嗨'
       },
       starRating: 3
@@ -103,16 +103,26 @@ export default {
           })
           this.$router.push('/login')
           return
+        } else if (this.form.text.length === 0) {
+          this.$swal({
+            icon: 'error',
+            title: '傳送失敗',
+            text: '輸入欄位是空的'
+          })
+          return
         }
         const { data } = await this.api.post('/products/' + this.$route.params.id, this.form, {
           headers: {
             authorization: 'Bearer ' + this.user.token
           }
         })
-        console.log(data)
         this.review = data.result.review
       } catch (error) {
-        console.log(error)
+        this.$swal({
+          icon: 'error',
+          title: '失敗',
+          text: error.response.data.message
+        })
       }
     }
   },

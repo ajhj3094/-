@@ -10,7 +10,9 @@ export default new Vuetify({
         primary: '#3f51b5',
         secondary: '#b0bec5',
         anchor: '#8c9eff',
-        maincolor: '#ad2e39'
+        maincolor: '#ad2e39',
+        darkbg: '#292929',
+        yellowbtn: '#fdd935'
       }
     }
   }

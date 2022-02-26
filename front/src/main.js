@@ -11,8 +11,11 @@ import mixin from './mixin.js'
 import ImgInputer from 'vue-img-inputer'
 import 'vue-img-inputer/dist/index.css'
 import VuePageTransition from 'vue-page-transition'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
 
 Vue.component('ImgInputer', ImgInputer)
+Vue.use(VueAwesomeSwiper)
 Vue.use(VueSweetalert2)
 Vue.use(VuePageTransition)
 Vue.mixin(mixin)

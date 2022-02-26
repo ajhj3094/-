@@ -32,19 +32,19 @@ const routes = [
     }
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-    meta: {
-      title: 'Hiver | 登入'
-    }
-  },
-  {
     path: '/product/:id',
     name: 'Product',
     component: () => import(/* webpackChunkName: "product" */ '../views/Product.vue'),
     meta: {
       title: 'Hiver | 商品'
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+    meta: {
+      title: 'Hiver | 登入'
     }
   },
   {

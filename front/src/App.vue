@@ -3,7 +3,9 @@ v-app
   v-app-bar#navbar.z-100(
       app
       prominent
-      height='164'
+      height='196'
+      hide-on-scroll
+      scroll-threshold='300'
     )
     .w-100.sd-color
       v-container#navtext-container.xl-mw.pa-0
@@ -107,10 +109,23 @@ v-app
             )
               span {{ tab.title }}
               v-divider(inset vertical)
+    .w-100.test-color.z-50
+      v-container#menutext-container.xl-mw.pa-0
+        p.mb-0.text-subtitle-2.white--text.text-center
+          | 嗨！HIVER 的會員，聖誕節起首筆消費即享有 8 折優惠！活動將於 3/4 截止
   v-main
     vue-page-transition(name='fade-in-right')
       //- 很重要，否則做路由參數時更換網址 id 頁面不會重新渲染
       router-view(:key='$route.fullPath')
+  v-footer(color='darkbg' padless)
+    v-row(justify='center' no-gutters)
+      v-btn.my-2(v-for='link in links' :key='link' color='white' text rounded).
+        {{ link }}
+      v-col.py-4.text-center.grey--text.text--lighten-1(cols='12')
+        | {{ new Date().getFullYear() }} —
+        strong  Copyright © Justin Yu
+        br
+        p.grey--text.text--darken-1 圖像皆取自網路&nbsp; | &nbsp;網站為學習用途，並無商業使用
 </template>
 
 <script>
@@ -139,6 +154,14 @@ export default {
         { id: 5, title: '男生', to: '/shop/male' },
         { id: 6, title: '女生', to: '/shop/female' },
         { id: 7, title: '露營', to: '/shop/camping' }
+      ],
+      links: [
+        'Home',
+        'About Us',
+        'Team',
+        'Services',
+        'Blog',
+        'Contact Us'
       ]
     }
   },

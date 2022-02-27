@@ -26,7 +26,7 @@ v-container#product
         )
       v-btn(color='primary' @click='addCart') 加入購物車
     v-col(cols='12')
-      v-img.w-100(:src='image')
+      v-img.w-100(:src='image[0]')
       p(style='white-space: pre;') {{ description }}
     v-col(cols='12')
       v-textarea(
@@ -48,7 +48,6 @@ v-container#product
         value="3"
       )
       v-avatar(
-
       )
         v-img(:src='"https://source.boringavatars.com/beam/120/" + this.user.token')
       table
@@ -59,6 +58,15 @@ v-container#product
             | {{ item.rating }}
             br
             | {{ item.text }}
+  //- v-container
+  //-   ProductZoomer(
+  //-     :base-images="images"
+  //-     :base-zoomer-options="zoomerOptions"
+  //-   )
+  v-container
+    v-img(height='500' width='500' :src='preview')
+      v-card(v-for='item in image' :key='item.id' height='50' width='50' @click='changepic(item)')
+        v-img(:src='item')
 </template>
 
 <script>
@@ -69,10 +77,11 @@ export default {
   },
   data () {
     return {
+      preview: '',
       name: '',
       price: 0,
       description: '',
-      image: '',
+      image: [],
       sell: false,
       category: '',
       // 使用者加幾個進購物車
@@ -90,6 +99,9 @@ export default {
     }
   },
   methods: {
+    changepic (value) {
+      this.preview = value
+    },
     addCart () {
       this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity })
     },
@@ -139,11 +151,27 @@ export default {
       this.image = data.result.image
       this.sell = data.result.sell
       this.category = data.result.category
+      this.gender = data.result.gender
       this.review = data.result.review
       document.title = `Hiver | ${this.name}`
+      this.preview = this.image[0]
+      // this.images.thumbs[0].id = 0
+      // this.images.thumbs[0].url = this.image[0]
+      // this.images.normal_size[0].id = 0
+      // this.images.normal_size[0].url = this.image[0]
+      // this.images.large_size[0].id = 0
+      // this.images.large_size[0].url = this.image[0]
+      // this.preview = this.image[0]
+      // for (let i = 0; i < this.image.length; i++) {
+      //   this.images.thumbs.push({ id: i, url: this.image[i] })
+      //   this.images.normal_size.push({ id: i, url: this.image[i] })
+      //   this.images.large_size.push({ id: i, url: this.image[i] })
+      // }
     } catch (error) {
       this.$router.push('/')
     }
+  },
+  mounted () {
   }
 }
 </script>

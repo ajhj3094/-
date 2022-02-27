@@ -2,7 +2,7 @@ import products from '../models/products.js'
 
 export const create = async (req, res) => {
   try {
-    const result = await products.create({ ...req.body, image: req.file.path })
+    const result = await products.create({ ...req.body, image: req.files.map(item => { return item.path }) })
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -50,7 +50,6 @@ export const getProductById = async (req, res) => {
 }
 
 export const updateProductById = async (req, res) => {
-  console.log(req.body)
   const data = {
     name: req.body.name,
     price: req.body.price,
@@ -60,8 +59,8 @@ export const updateProductById = async (req, res) => {
     gender: req.body.gender
   }
 
-  if (req.file) {
-    data.image = req.file.path
+  if (req.files.length > 0) {
+    data.image = req.files.map(item => { return item.path })
   }
   try {
     const result = await products.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true })
@@ -73,7 +72,7 @@ export const updateProductById = async (req, res) => {
       const key = Object.keys(error.errors)[0]
       res.status(400).send({ success: false, message: error.errors[key].message })
     } else {
-      res.status(500).send({ success: false, message: '伺服器錯誤' })
+      res.status(500).send({ success: false, message: '伺服器錯誤123123' })
     }
   }
 }

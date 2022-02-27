@@ -13,6 +13,12 @@ const orderSchema = new mongoose.Schema({
           ref: 'products',
           required: [true, '缺少商品 ID']
         },
+        color: {
+          type: String
+        },
+        size: {
+          type: String
+        },
         quantity: {
           type: Number,
           required: [true, '缺少商品數量']

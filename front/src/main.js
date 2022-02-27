@@ -13,8 +13,13 @@ import 'vue-img-inputer/dist/index.css'
 import VuePageTransition from 'vue-page-transition'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import VueFileAgent from 'vue-file-agent'
+import 'vue-file-agent/dist/vue-file-agent.css'
+import ProductZoomer from 'vue-product-zoomer'
+Vue.use(ProductZoomer)
 
 Vue.component('ImgInputer', ImgInputer)
+Vue.use(VueFileAgent)
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueSweetalert2)
 Vue.use(VuePageTransition)

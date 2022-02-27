@@ -1,6 +1,6 @@
 <template lang="pug">
 v-card.card-product
-  v-img(:src="product.image" height="250")
+  v-img(:src="product.image[0]" height="250")
   v-card-title
     router-link(:to='"/product/" + product._id') {{ product.name }}
   v-card-subtitle {{ product.category }} - {{ '$ ' + product.price }}

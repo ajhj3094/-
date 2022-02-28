@@ -12,10 +12,6 @@ v-container#orders
       ul
         li(v-for='product in item.products' :key='product._id')
           |  {{ product.product.name }} x {{ product.quantity }}
-    template(#item.products='{ item }')
-      ul
-        li(v-for='cus in item.products' v-if='cus.custom.length > 0' :key='cus._id')
-          | {{ cus }}
 </template>
 
 <script>

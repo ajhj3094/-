@@ -12,6 +12,10 @@ v-container#orders
       ul
         li(v-for='product in item.products' :key='product._id')
           |  {{ product.product.name }} x {{ product.quantity }}
+    template(#item.products='{ item }')
+      ul
+        li(v-for='cus in item.products' v-if='cus.custom.length > 0' :key='cus._id')
+          | {{ cus }}
 </template>
 
 <script>
@@ -22,8 +26,19 @@ export default {
       headers: [
         { text: '單號', value: '_id' },
         { text: '日期', value: 'date' },
-        { text: '商品', value: 'products' }
+        { text: '商品', value: 'products' },
+        { text: '備註', value: 'custom' }
       ]
+    }
+  },
+  computed: {
+    customarr () {
+      const arr = this.orders.map(item => {
+        return item.products
+      }).map(item => {
+        return item
+      })
+      return arr
     }
   },
   async created () {

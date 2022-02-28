@@ -24,20 +24,53 @@
             label='商品描述'
             value=''
           )
-          v-radio-group(v-model='form.sell' mandatory)
-            v-radio(label='上架' :value='true')
-            v-radio(label='下架' :value='false')
-          //- img-inputer(
-          //-   accept='image/*'
-          //-   v-model='form.image'
-          //-   theme='light'
-          //-   size='large'
-          //-   bottom-text='點選或拖拽圖片以修改'
-          //-   placeholder='點選或拖曳選擇圖片'
-          //-   hover-text='點選或拖曳選擇圖片'
-          //-   :max-size='1024'
-          //-   exceed-size-text='檔案大小不能超過'
-          //- )
+          v-row
+            v-col(cols='4')
+              v-radio-group.pl-2.my-2(v-model='form.sell' mandatory)
+                v-radio(label='上架' :value='true')
+                v-radio(label='下架' :value='false')
+            v-divider(vertical style="height: 100px")
+            v-col(cols='4')
+              v-radio-group.pl-2.my-2(v-model='form.size' mandatory)
+                v-radio(label='多個尺寸' :value='true')
+                v-radio(label='無' :value='false')
+            v-divider(vertical style="height: 100px")
+            v-col(cols='4')
+              v-radio-group.pl-2.my-2(v-model='form.color' mandatory)
+                v-radio(label='多款顏色' :value='true')
+                v-radio(label='無' :value='false' @click='nocolor()')
+            v-col(cols='12' v-if='form.color')
+              v-card(flat)
+                v-card-text
+                  v-container(fluid)
+                    v-row
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='紅' color='red' value='紅' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='粉紅' color='pink' value='粉紅' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='紫' color='purple' value='紫' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='藍' color='blue' value='藍' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='綠' color='green' value='綠' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='黃' color='yellow' value='黃' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='卡其' color='brown lighten-3' value='卡其' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='深卡其' color='brown darken-1' value='深卡其' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='深藍' color='indigo' value='深藍' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='淺藍' color='light-blue' value='淺藍' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='深綠' color='teal' value='深綠' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='淺綠' color='light-green' value='淺綠' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='橘' color='orange' value='橘' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='棕' color='brown' value='棕' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='藏青' color='blue-grey' value='藏青' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='灰' color='grey darken-2' value='灰' hide-details)
+                      v-col(cols='12' sm='4' md='4')
+                        v-checkbox(v-model='form.coloroptions' label='黑' color='black' value='黑' hide-details)
+                        v-checkbox(v-model='form.coloroptions' label='白' color='grey' value='白' hide-details)
           VueFileAgent(
             ref="vueFileAgent"
             :theme="'list'"
@@ -54,13 +87,6 @@
             @delete='fileDeleted($event)'
             v-model='fileRecords'
           )
-          //- v-btn(
-          //-   :disabled='!fileRecordsForUpload.length'
-          //-   @click='uploadFiles()'
-          //- ) 上傳 {{ fileRecordsForUpload.length }} 個檔案
-          //- v-btn(
-          //-   @click='test222'
-          //- ) 測試測試
         v-divider
         v-card-actions
           v-spacer
@@ -128,6 +154,9 @@ export default {
         description: '',
         image: [],
         sell: false,
+        color: false,
+        coloroptions: [],
+        size: false,
         category: null,
         gender: null,
         _id: '',
@@ -181,15 +210,16 @@ export default {
     }
   },
   methods: {
-    // test222 () {
-    //   console.log(this.products)
-    // },
+    nocolor () {
+      if (!this.form.color) {
+        this.form.coloroptions = []
+      }
+    },
     clickoutside () {
       this.dialog = true
     },
     validate () {
       this.$refs.form.validate()
-      // this.$refs.form.validate() ? this.dialog = false : this.dialog = true
     },
     reset () {
       this.$refs.form.reset()
@@ -209,12 +239,17 @@ export default {
       for (const key in this.form) {
         if (key !== '_id') {
           if (key !== 'image') {
-            fd.append(key, this.form[key])
+            if (key !== 'coloroptions') {
+              fd.append(key, this.form[key])
+            }
           }
         }
       }
       for (const file of this.form.image) {
         fd.append('image', file)
+      }
+      for (const option of this.form.coloroptions) {
+        fd.append('coloroptions', option)
       }
       try {
         // 新增
@@ -224,6 +259,7 @@ export default {
               authorization: 'Bearer ' + this.user.token
             }
           })
+          // console.log(data.result)
           this.products.push(data.result)
         } else {
           // 編輯
@@ -278,6 +314,8 @@ export default {
         description: '',
         image: [],
         sell: false,
+        color: false,
+        size: false,
         category: null,
         gender: null,
         index: -1
@@ -288,15 +326,6 @@ export default {
       this.form = { ...this.products[index], image: [], index }
       this.dialog = true
     },
-    // uploadFiles () {
-    //   // Using the default uploader. You may use another uploader instead.
-    //   this.$refs.vueFileAgent.upload(this.uploadUrl, this.uploadHeaders, this.fileRecordsForUpload)
-    //   this.fileRecordsForUpload = []
-    // },
-    // deleteUploadedFile (fileRecord) {
-    //   // Using the default uploader. You may use another uploader instead.
-    //   this.$refs.vueFileAgent.deleteUpload(this.uploadUrl, this.uploadHeaders, fileRecord)
-    // },
     filesSelected (fileRecordsNewlySelected) {
       var validFileRecords = fileRecordsNewlySelected.filter((fileRecord) => !fileRecord.error)
       this.fileRecordsForUpload = this.fileRecordsForUpload.concat(validFileRecords)
@@ -314,14 +343,6 @@ export default {
         }
       }
     }
-    // fileDeleted (fileRecord) {
-    //   var i = this.fileRecordsForUpload.indexOf(fileRecord)
-    //   if (i !== -1) {
-    //     this.fileRecordsForUpload.splice(i, 1)
-    //   } else {
-    //     this.deleteUploadedFile(fileRecord)
-    //   }
-    // }
   },
   async created () {
     try {

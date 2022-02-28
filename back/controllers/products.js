@@ -2,6 +2,7 @@ import products from '../models/products.js'
 
 export const create = async (req, res) => {
   try {
+    // console.log(req)
     const result = await products.create({ ...req.body, image: req.files.map(item => { return item.path }) })
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
@@ -56,7 +57,9 @@ export const updateProductById = async (req, res) => {
     description: req.body.description,
     sell: req.body.sell,
     category: req.body.category,
-    gender: req.body.gender
+    gender: req.body.gender,
+    color: req.body.color,
+    size: req.body.size
   }
 
   if (req.files.length > 0) {
@@ -123,7 +126,7 @@ export const searchProducts = async (req, res) => {
     })
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     res.status(500).send({ success: false, message: '伺服器錯誤' })
   }
 }
@@ -140,7 +143,7 @@ export const addreviewById = async (req, res) => {
     const result = await products.findByIdAndUpdate(req.params.id, { new: true, runValidators: true })
     result.review.push(data)
     result.save()
-    console.log(result)
+    // console.log(result)
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     if (error.name === 'CastError') {

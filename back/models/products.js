@@ -34,6 +34,17 @@ const productSchema = new mongoose.Schema({
       message: '使用性別不存在'
     }
   },
+  color: {
+    type: Boolean,
+    default: false
+  },
+  coloroptions: {
+    type: [String]
+  },
+  size: {
+    type: Boolean,
+    default: false
+  },
   review: {
     type: [
       {

@@ -39,7 +39,19 @@ p, span{
 }
 
 .w-100 {
-  width: 100%;
+  width: 100% !important;
+}
+.w-75 {
+  width: 75% !important;
+}
+.w-50 {
+  width: 50% !important;
+}
+.w-25 {
+  width: 25% !important;
+}
+.w-0 {
+  width: 0% !important;
 }
 
 .main-color {
@@ -68,4 +80,30 @@ p, span{
 
 .mt-165 {
   margin-top: 165px;
+}
+
+.pcardtext {
+  color: black;
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  &:hover{
+    text-decoration: underline !important;
+  }
+}
+
+a.text-decoration-none {
+  font-size: 20px;
+  font-weight: 500;
+  &:hover{
+    text-decoration: underline !important;
+  }
+  span {
+    font-size: 16px;
+  }
+}
+
+a.text-decoration-none:hover {
+  text-decoration: auto !important;
 }

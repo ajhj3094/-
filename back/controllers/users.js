@@ -38,7 +38,7 @@ export const login = async (req, res) => {
       res.status(404).send({ success: false, message: '帳號或密碼錯誤' })
     }
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     res.status(500).send({ success: false, message: '伺服器錯誤' })
   }
 }
@@ -79,12 +79,23 @@ export const getUserInfo = (req, res) => {
 
 export const addCart = async (req, res) => {
   try {
+    // console.log(req)
     const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
     if (idx > -1) {
+      // 如果購物車存在此商品，加數量就好
+      if (req.body.custom) {
+        // 如果客製尺寸與樣式不是 false
+        req.user.cart[idx].custom.push(req.body.custom)
+      }
       req.user.cart[idx].quantity += req.body.quantity
     } else {
+      // if (req.body.custom) {
+      //   // 如果客製尺寸與樣式不是 false
+      //   req.user.cart[idx].custom.push(req.body.custom)
+      // }
       const result = await products.findById(req.body.product)
       if (!result || !result.sell) {
+        // 如果沒找到商品或商品已下架
         res.status(404).send({ success: false, message: '商品不存在' })
         return
       }

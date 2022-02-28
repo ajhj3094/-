@@ -77,6 +77,22 @@ export const addCart = async ({ commit, state }, data) => {
     })
     return
   }
+  if (data.hassize && data.size === '') {
+    swal.fire({
+      icon: 'error',
+      title: '錯誤',
+      text: '請輸入商品尺寸'
+    })
+    return
+  }
+  if (data.hascolor && data.color === '') {
+    swal.fire({
+      icon: 'error',
+      title: '錯誤',
+      text: '請輸入商品顏色'
+    })
+    return
+  }
   try {
     const { data: resData } = await api.post('/users/me/cart', data, {
       headers: {

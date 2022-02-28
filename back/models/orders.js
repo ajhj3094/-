@@ -19,6 +19,9 @@ const orderSchema = new mongoose.Schema({
         size: {
           type: String
         },
+        custom: {
+          type: Array
+        },
         quantity: {
           type: Number,
           required: [true, '缺少商品數量']

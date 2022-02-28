@@ -4,12 +4,26 @@ v-container#product
     v-progress-circular.mx-auto(indeterminate size="64")
     h1 商品已下架
   v-row
+    v-col(cols='6').d-flex.flex-column.align-center
+      v-img(height='600' width='900' :src='preview')
+      .w-100.d-flex.justify-center
+        v-card.mt-2.mx-1(:img='item' v-for='item in image' :key='item.id' height='110' width='100' @click='changepic(item)')
+          //- v-img(:src='item')
     v-col(cols='6')
-      h1 {{ name }}
-    v-col(cols='6')
-      h4.text-right $ {{ price }}
-      v-form
-        v-text-field(
+      h1.mt-2 {{ name }}
+      h4 {{ category }}
+      p(style='white-space: pre;' v-if='description.length > 0') {{ description }}
+      p(style='white-space: pre;' v-else) 無商品描述
+      h2.text-left $ {{ price }}
+      v-form.mt-16
+        v-row.justify-end
+          v-col(cols='6' v-if='color' style="height: 120px")
+            v-select(v-model='colordecision' :items='coloroptions' label='請選擇商品顏色' outlined chips)
+          v-col(cols='6' v-if='size' style="height: 120px")
+            v-select(v-model='sizedecision' :items='sizeoptions' label='請選擇商品尺寸' outlined chips)
+          v-col(cols='12' v-if='!color&&!size' style="height: 120px")
+              h2.text-center.grey--text 統一尺寸及顏色
+        v-text-field.mt-10(
           readonly
           height='20'
           width='50'
@@ -24,10 +38,12 @@ v-container#product
           @click:append='quantity++'
           @click:prepend-inner='quantity > 0 ? quantity-- : null'
         )
-      v-btn(color='primary' @click='addCart') 加入購物車
+      v-btn.mt-8(color='primary' @click='addCart' block height='80') 加入購物車
+      router-link.d-flex.justify-end.mt-4.text-decoration-none(:to='"/shop"')
+        v-btn(color='red' dark) 回商城
     v-col(cols='12')
-      v-img.w-100(:src='image[0]')
-      p(style='white-space: pre;') {{ description }}
+      //- v-img.w-100(:src='image[0]')
+      //- p(style='white-space: pre;') {{ description }}
     v-col(cols='12')
       v-textarea(
         outlined
@@ -59,14 +75,9 @@ v-container#product
             br
             | {{ item.text }}
   //- v-container
-  //-   ProductZoomer(
-  //-     :base-images="images"
-  //-     :base-zoomer-options="zoomerOptions"
-  //-   )
-  v-container
-    v-img(height='500' width='500' :src='preview')
-      v-card(v-for='item in image' :key='item.id' height='50' width='50' @click='changepic(item)')
-        v-img(:src='item')
+  //-   v-img(height='500' width='500' :src='preview')
+  //-     v-card(v-for='item in image' :key='item.id' height='50' width='50' @click='changepic(item)')
+  //-       v-img(:src='item')
 </template>
 
 <script>
@@ -83,6 +94,14 @@ export default {
       description: '',
       image: [],
       sell: false,
+      size: false,
+      sizeoptions: [
+        'XXL', 'XL', 'L', 'M', 'S', 'XS', 'XXS'
+      ],
+      sizedecision: '',
+      color: false,
+      coloroptions: [],
+      colordecision: '',
       category: '',
       // 使用者加幾個進購物車
       quantity: 0,
@@ -99,11 +118,14 @@ export default {
     }
   },
   methods: {
+    testsizecolor () {
+      console.log()
+    },
     changepic (value) {
       this.preview = value
     },
     addCart () {
-      this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity })
+      this.$store.dispatch('user/addCart', { product: this.$route.params.id, quantity: this.quantity, size: this.sizedecision, hassize: this.size, color: this.colordecision, hascolor: this.color, custom: this.custom })
     },
     async submit () {
       try {
@@ -139,7 +161,17 @@ export default {
     }
   },
   computed: {
-
+    custom () {
+      if (this.color && this.size) {
+        return `${this.colordecision + '色 - '} ${this.sizedecision + '號'}  x ${this.quantity}`
+      } else if (!this.color && this.size) {
+        return `${this.sizedecision + '號'}  x ${this.quantity}`
+      } else if (this.color && !this.size) {
+        return `${this.colordecision + '色'}  x ${this.quantity}`
+      } else {
+        return false
+      }
+    }
   },
   async created () {
     try {
@@ -150,23 +182,14 @@ export default {
       this.description = data.result.description
       this.image = data.result.image
       this.sell = data.result.sell
+      this.color = data.result.color
+      this.size = data.result.size
       this.category = data.result.category
       this.gender = data.result.gender
       this.review = data.result.review
+      this.coloroptions = data.result.coloroptions
       document.title = `Hiver | ${this.name}`
       this.preview = this.image[0]
-      // this.images.thumbs[0].id = 0
-      // this.images.thumbs[0].url = this.image[0]
-      // this.images.normal_size[0].id = 0
-      // this.images.normal_size[0].url = this.image[0]
-      // this.images.large_size[0].id = 0
-      // this.images.large_size[0].url = this.image[0]
-      // this.preview = this.image[0]
-      // for (let i = 0; i < this.image.length; i++) {
-      //   this.images.thumbs.push({ id: i, url: this.image[i] })
-      //   this.images.normal_size.push({ id: i, url: this.image[i] })
-      //   this.images.large_size.push({ id: i, url: this.image[i] })
-      // }
     } catch (error) {
       this.$router.push('/')
     }

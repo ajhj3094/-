@@ -40,6 +40,15 @@ const userSchema = new mongoose.Schema({
           ref: 'products',
           required: [true, '缺少商品 ID']
         },
+        color: {
+          type: String
+        },
+        size: {
+          type: String
+        },
+        custom: {
+          type: Array
+        },
         quantity: {
           type: Number,
           required: [true, '缺少商品數量']

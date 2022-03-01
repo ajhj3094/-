@@ -38,7 +38,6 @@ export const login = async (req, res) => {
       res.status(404).send({ success: false, message: '帳號或密碼錯誤' })
     }
   } catch (error) {
-    // console.log(error)
     res.status(500).send({ success: false, message: '伺服器錯誤' })
   }
 }
@@ -79,7 +78,6 @@ export const getUserInfo = (req, res) => {
 
 export const addCart = async (req, res) => {
   try {
-    // console.log(req)
     const idx = req.user.cart.findIndex(item => item.product.toString() === req.body.product)
     if (idx > -1) {
       // 如果購物車存在此商品，加數量就好

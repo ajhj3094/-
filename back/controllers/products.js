@@ -132,15 +132,18 @@ export const searchProducts = async (req, res) => {
 }
 
 export const addreviewById = async (req, res) => {
-  // console.log(req.user)
+  console.log(req)
   const data = {
     user: req.user.account,
+    _id: req.user._id,
     rating: req.body.rating,
     text: req.body.text
   }
 
   try {
     const result = await products.findByIdAndUpdate(req.params.id, { new: true, runValidators: true })
+    console.log(data)
+    console.log(result)
     result.review.push(data)
     result.save()
     // console.log(result)
@@ -156,3 +159,29 @@ export const addreviewById = async (req, res) => {
     }
   }
 }
+
+// export const getIdforAvatar = async (req, res) => {
+//   console.log(req)
+//   const data = {
+//     _id: req.user._id
+//   }
+
+//   try {
+//     const result = await products.findByIdAndUpdate(req.params.id, { new: true, runValidators: true })
+//     console.log(data)
+//     console.log(result)
+//     result.review.push(data)
+//     result.save()
+//     // console.log(result)
+//     res.status(200).send({ success: true, message: '', result })
+//   } catch (error) {
+//     if (error.name === 'CastError') {
+//       res.status(404).send({ success: false, message: '找不到' })
+//     } else if (error.name === 'ValidationError') {
+//       const key = Object.keys(error.errors)[0]
+//       res.status(400).send({ success: false, message: error.errors[key].message })
+//     } else {
+//       res.status(500).send({ success: false, message: '伺服器錯誤' })
+//     }
+//   }
+// }

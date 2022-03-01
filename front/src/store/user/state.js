@@ -4,6 +4,7 @@ export default () => {
     account: '',
     role: 0,
     email: '',
-    cart: 0
+    cart: 0,
+    _id: ''
   }
 }

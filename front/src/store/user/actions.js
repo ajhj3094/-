@@ -53,6 +53,7 @@ export const getInfo = async ({ commit, state }) => {
         authorization: 'Bearer ' + state.token
       }
     })
+    console.log(data)
     commit('getInfo', data.result)
   } catch (error) {
     commit('logout')

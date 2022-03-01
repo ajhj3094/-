@@ -22,6 +22,7 @@ export const getInfo = (state, data) => {
   state.role = data.role
   state.email = data.email
   state.cart = data.cart
+  state._id = data._id
 }
 
 export const extend = (state, data) => {

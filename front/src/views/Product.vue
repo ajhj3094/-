@@ -41,39 +41,88 @@ v-container#product
       v-btn.mt-8(color='primary' @click='addCart' block height='80') 加入購物車
       router-link.d-flex.justify-end.mt-4.text-decoration-none(:to='"/shop"')
         v-btn(color='red' dark) 回商城
-    v-col(cols='12')
+    //- v-col(cols='12')
       //- v-img.w-100(:src='image[0]')
       //- p(style='white-space: pre;') {{ description }}
     v-col(cols='12')
-      v-textarea(
-        outlined
-        v-model='form.text'
-        @keydown.enter='submit()'
+      v-dialog(
+        v-model='reviewdialog'
+        width='500px'
+        color='red'
+        @click:outside='form.text = ""'
       )
-      v-btn(@click='submit()') 送出
-    v-col(cols='12')
-      v-rating(
-        v-model='form.rating'
-        background-color="grey lighten-1"
-        color="warning"
-        dense
-        half-increments
-        hover
-        length="5"
-        size="33"
-        value="3"
-      )
-      v-avatar(
-      )
-        v-img(:src='"https://source.boringavatars.com/beam/120/" + this.user.token')
-      table
-        tr
-          td(v-for='item in review' :key='item._id')
-            | {{ item.user }}
-            br
-            | {{ item.rating }}
-            br
-            | {{ item.text }}
+        template(#activator='{ on, attrs }')
+          v-btn(
+            block
+            color="red lighten-2"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          ) 我要留言
+        v-card
+          v-card-title
+            v-avatar(
+            )
+              v-img(:src='"https://source.boringavatars.com/beam/120/" + this.user._id')
+            p.text-h6.grey--text.text--darken-2.mb-0.ml-3 {{ this.user.account }}
+          v-card-text.pb-2
+            v-rating(
+              v-model='form.rating'
+              background-color="grey lighten-1"
+              color="warning"
+              dense
+              half-increments
+              hover
+              length="5"
+              size="33"
+              value="3"
+            )
+          v-card-text.pb-2
+            v-textarea(
+              no-resize
+              outlined
+              v-model='form.text'
+              hide-details
+              height='150'
+            )
+          v-card-actions
+            v-row.ma-n2
+              v-col(cols='6')
+                v-btn(
+                  @click='submit()'
+                  color='success'
+                  block
+                ) 送出
+              v-col(cols='6')
+                v-btn(
+                  @click='form.text = ""'
+                  color='error'
+                  block
+                ) 取消
+    v-col.d-flex.flex-column-reverse(cols='12')
+      v-card.my-3.mx-5(v-for='item in review' :key='item._id')
+        v-card-title
+          v-avatar.mr-3(
+          )
+            v-img(:src='"https://source.boringavatars.com/beam/120/" + item._id')
+          | {{ item.user }}
+        //- br
+        v-card-subtitle.mt-n2
+          v-rating(
+            readonly
+            v-model='item.rating'
+            background-color="grey lighten-1"
+            color="warning"
+            dense
+            half-increments
+            hover
+            length="5"
+            size="20"
+            value="3"
+          )
+        v-card-text
+          p.text-body-1.grey--text.text--darken-2.mb-0(style='white-space: pre-wrap;') {{ item.text }}
+          p.text-right.mb-0 {{ new Date(item.date).toLocaleString('zh-tw') }}
   //- v-container
   //-   v-img(height='500' width='500' :src='preview')
   //-     v-card(v-for='item in image' :key='item.id' height='50' width='50' @click='changepic(item)')
@@ -88,6 +137,7 @@ export default {
   },
   data () {
     return {
+      reviewdialog: false,
       preview: '',
       name: '',
       price: 0,
@@ -112,12 +162,15 @@ export default {
       review: [],
       form: {
         rating: 3,
-        text: '嗨'
+        text: ''
       },
       starRating: 3
     }
   },
   methods: {
+    iwainttoreview () {
+      this.reviewdialog = true
+    },
     testsizecolor () {
       console.log()
     },
@@ -150,7 +203,10 @@ export default {
             authorization: 'Bearer ' + this.user.token
           }
         })
+        this.id = data.result._id
         this.review = data.result.review
+        this.reviewdialog = false
+        this.form.text = ''
       } catch (error) {
         this.$swal({
           icon: 'error',
@@ -177,6 +233,7 @@ export default {
     try {
       // 用路由參數把網址的 id 抓進來
       const { data } = await this.api.get('/products/' + this.$route.params.id)
+      console.log(data)
       this.name = data.result.name
       this.price = data.result.price
       this.description = data.result.description
@@ -190,6 +247,7 @@ export default {
       this.coloroptions = data.result.coloroptions
       document.title = `Hiver | ${this.name}`
       this.preview = this.image[0]
+      // const { data: redData } = await this.api.get('users/me')
     } catch (error) {
       this.$router.push('/')
     }

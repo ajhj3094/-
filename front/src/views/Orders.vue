@@ -12,6 +12,10 @@ v-container#orders
       ul
         li(v-for='product in item.products' :key='product._id')
           |  {{ product.product.name }} x {{ product.quantity }}
+    template(#item.products.custom='{ item }')
+      div(v-for='product in item.products')
+        div(v-for='pro in product.custom' v-if='pro')
+          | {{ pro }}
 </template>
 
 <script>
@@ -23,7 +27,7 @@ export default {
         { text: '單號', value: '_id' },
         { text: '日期', value: 'date' },
         { text: '商品', value: 'products' },
-        { text: '備註', value: 'custom' }
+        { text: '備註', value: 'products.custom' }
       ]
     }
   },
